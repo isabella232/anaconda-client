@@ -32,7 +32,7 @@ jobs:
       run: |
         pv=$(curl -s https://pypi.org/pypi/anaconda-cli/json | jq -r .info.version)
         echo "::set-env name=pv::pv"
-        gv=$(git describe --abbrev=0)
+        gv=$(git describe --abbrev=0).1
         echo "::set-env name=gv::gv"
         
     - name: display versions
