@@ -40,11 +40,11 @@ jobs:
         echo "pypi version: ${pypi_version}"
         echo "local version: ${local_version}"
       env:
-        pypi_version: ${{ github.env.pv }}
-        local_version: ${{ github.env.gv }}
+        pypi_version: ${{ env.pv }}
+        local_version: ${{ env.gv }}
         
     - name: upload to pypi
-      if: github.env.py != github.env.gv
+      if: env.py != env.gv
       run: |
         pip3 install wheel twine
         python3 setup.py sdist bdist_wheel
