@@ -1,0 +1,24 @@
+name: sync fork
+on: 
+  workflow_dispatch:
+  push:
+  #schedule:
+  #  - cron: '1 6 * * *'
+jobs:     
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Copy Repository Contents
+      uses: actions/checkout@v2
+
+    - name: rebase
+      uses: git fetch upstream && git checkout master && git merge upstream/master
+
+    - name: push changes
+      run: |
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
+        git add -A
+        git commit -m'[bot] sync with upstream'
+        git push
