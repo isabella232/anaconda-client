@@ -36,8 +36,8 @@ jobs:
         gv=$(git describe --abbrev=0)
         echo "::set-env name=gv::gv"
         
-        echo "pypi version: $pv"
-        echo "local version: $gv"
+        echo "pypi version: ${pv}"
+        echo "local version: ${gv}"
         
     - name: upload to pypi
       if: github.env.py != github.env.gv
