@@ -27,7 +27,20 @@ jobs:
         git commit --allow-empty -m'[bot] sync with upstream'
         git push
     - uses: actions/setup-python@v2
+      
+    - name: get versions
+      run: |
+        pv=$(curl -s https://pypi.org/pypi/anaconda-cli/json | jq -r .info.version)
+        echo "::set-env name=pv::pv"
+        
+        gv=$(git describe --abbrev=0)
+        echo "::set-env name=gv::gv"
+        
+        echo "pypi version: $pv"
+        echo "local version: $gv"
+        
     - name: upload to pypi
+      if: github.env.py != github.env.gv
       run: |
         pip3 install wheel twine
         python3 setup.py sdist bdist_wheel
