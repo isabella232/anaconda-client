@@ -7,7 +7,7 @@ requirements_file = open(os.path.join(base_dir, 'requirements.txt'))
 requirements = requirements_file.read().splitlines()
 
 setup(
-    name='anaconda-client',
+    name='anaconda-cli',
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
     author='Sean Ross-Ross',
