@@ -1,15 +1,14 @@
-import os
+import os,subprocess
 from setuptools import setup, find_packages
-import versioneer
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 requirements_file = open(os.path.join(base_dir, 'requirements.txt'))
 requirements = requirements_file.read().splitlines()
+ver = subprocess.check_output("git describe --abbrev=0".split()).decode().strip()
 
 setup(
     name='anaconda-cli',
-    version=versioneer.get_version(),
-    cmdclass=versioneer.get_cmdclass(),
+    version=ver + '.1',
     author='Sean Ross-Ross',
     author_email='srossross@gmail.com',
     url='http://github.com/Anaconda-Platform/anaconda-client',
