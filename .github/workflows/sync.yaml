@@ -28,27 +28,17 @@ jobs:
         git push
     - uses: actions/setup-python@v2
       
-    - name: get versions
+    - name: upload to pypi
       run: |
         pv=$(curl -s https://pypi.org/pypi/anaconda-cli/json | jq -r .info.version)
-        echo "::set-env name=pv::$pv"
         gv=$(git describe --abbrev=0).1
-        echo "::set-env name=gv::$gv"
-        
-    - name: display versions
-      run: |
-        echo "pypi version: ${pypi_version}"
-        echo "local version: ${local_version}"
-      env:
-        pypi_version: ${{ env.pv }}
-        local_version: ${{ env.gv }}
-        
-    - name: upload to pypi
-      if: env.py != env.gv
-      run: |
-        pip3 install wheel twine
-        python3 setup.py sdist bdist_wheel
-        twine upload --repository pypi dist/*
+        echo "pypi version: ${pv}; local version: ${gv}"
+        if [ ! $gv==$pv ]
+        then
+          pip3 install wheel twine
+          python3 setup.py sdist bdist_wheel
+          twine upload --repository pypi dist/*
+        fi
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USER }}
         TWINE_PASSWORD: ${{ secrets.PYPI_PASS }}
